@@ -9,6 +9,7 @@ import miju.com.robodelivery.dto.requests.LoadItemsRequest;
 import miju.com.robodelivery.helpers.ApiHelper;
 import miju.com.robodelivery.services.BoxDaoService;
 import miju.com.robodelivery.services.BoxService;
+import miju.com.robodelivery.services.ItemDaoService;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoboDeliveryController {
     private final BoxDaoService boxDaoService;
     private final BoxService boxService;
+    private final ItemDaoService itemDaoService;
     private final ApiHelper apiHelper;
 
     @PostMapping(value = "/box", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +35,11 @@ public class RoboDeliveryController {
     @GetMapping("/items/{txref}")
     public ResponseEntity<APIResponse<Object>> items(@PathVariable String txref) {
         return boxDaoService.items(txref);
+    }
+
+    @GetMapping("/items")
+    public ResponseEntity<APIResponse<Object>> allItems() {
+        return itemDaoService.findAll();
     }
 
     @GetMapping("/boxes")

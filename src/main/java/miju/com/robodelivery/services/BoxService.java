@@ -40,7 +40,7 @@ public class BoxService {
         log.info("Started box loading service");
         Box box = boxDaoService.getBoxByTxref(request.getTxref());
         if (box.getState() != BoxState.IDLE && box.getState() != BoxState.LOADING) throw apiHelper.getException(LOADING_ERROR);
-        if (box.getBatteryCapacity() < systemProperties.getMinimumLoadingBattery()) throw apiHelper.getException(BATTERY_LOW_ERROR);
+        if (box.getBatteryCapacity() < systemProperties.getMinimumLoadingBatteryCapacity()) throw apiHelper.getException(BATTERY_LOW_ERROR);
 
         List<ItemRequest> newItemRequests = request.getItems() == null ? List.of() : request.getItems();
         List<String> existingItemCodes = request.getCodes() == null ? List.of() : request.getCodes();
@@ -51,7 +51,11 @@ public class BoxService {
 
         List<Item> items = new ArrayList<>();
         if (!existingItemCodes.isEmpty()) {
-            items.addAll(itemDaoService.findAllItemsByCode(existingItemCodes));
+            List<Item> existingItems = itemDaoService.findAllItemsByCode(existingItemCodes);
+            if (existingItems.size() != existingItemCodes.size()) {
+                throw apiHelper.getException(ITEMS_NOT_FOUND);
+            }
+            items.addAll(existingItems);
         }
 
         BigDecimal incomingWeight = items.stream().map(Item::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add)

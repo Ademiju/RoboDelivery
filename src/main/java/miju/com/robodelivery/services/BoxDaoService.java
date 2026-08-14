@@ -63,7 +63,7 @@ public class BoxDaoService {
         log.info("Retrieval of available boxes");
 
         List<BoxResponse> boxResponses =  repository.findByStateIn(List.of(BoxState.IDLE, BoxState.LOADING)).stream()
-                .filter(b -> b.getBatteryCapacity() >= systemProperties.getMinimumLoadingBattery() && b.loadedWeight().compareTo(b.getWeightLimit()) < 0)
+                .filter(b -> b.getBatteryCapacity() >= systemProperties.getMinimumLoadingBatteryCapacity() && b.loadedWeight().compareTo(b.getWeightLimit()) < 0)
                 .map(BoxResponse::from).toList();
         return ResponseEntity.ok(
                 APIResponse.builder()

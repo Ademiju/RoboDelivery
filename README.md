@@ -144,6 +144,25 @@ Response (`200 OK`):
 }
 ```
 
+### List all items
+
+`GET /api/robo/items`
+
+Returns every item in the item catalog, including items created during previous load requests.
+
+Response (`200 OK`):
+
+```json
+{
+  "data": [
+    { "name": "medical-kit", "weight": 120.00, "code": "MEDICAL_KIT_1" },
+    { "name": "food_pack", "weight": 80.00, "code": "FOOD_PACK_2" }
+  ],
+  "statusCode": "0000",
+  "statusMessage": "Success."
+}
+```
+
 ### List available boxes
 
 `GET /api/robo/boxes`
@@ -201,4 +220,4 @@ Business-rule failures use this shape:
 }
 ```
 
-Common outcomes are `400 Bad Request` for invalid state, low battery, an empty load request, or a weight-limit breach; `404 Not Found` for an unknown box or when no requested existing items are found; and `409 Conflict` when a new-item code is already in the catalog or a box transaction reference already exists. Bean-validation failures return `400 Bad Request` with a `message` and an `errors` object.
+Common outcomes are `400 Bad Request` for invalid state, low battery, an empty load request, or a weight-limit breach; `404 Not Found` for an unknown box or when any requested existing item code is not found; and `409 Conflict` when a new-item code is already in the catalog or a box transaction reference already exists. Bean-validation failures return `400 Bad Request` with a `message` and an `errors` object.

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemProperties {
-    private int minimumLoadingBattery;
+    private int minimumLoadingBatteryCapacity;
     private double maximumBoxWeightLimit;
     private double minimumBoxWeightLimit;
     private String successfulReturnWebhookKey;
