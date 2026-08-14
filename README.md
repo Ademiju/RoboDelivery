@@ -170,11 +170,22 @@ Response (`200 OK`):
 
 The box must currently be `LOADING`.
 
-### Return webhook
+### Successful-delivery return webhook
 
 `PUT /api/robo/webhook?txref=DELIVERY_001`
 
-Include the `delivery-auth` request header with the configured webhook key. The box must currently be `RETURNING`; the endpoint changes it to `IDLE`.
+This endpoint simulates a successful-delivery callback from the physical box or delivery integration. After a successful delivery, the box is expected to be in the `RETURNING` state. The webhook marks it `IDLE`, making it eligible to appear in the available-boxes list and to receive new load requests again.
+
+Include the `delivery-auth` request header with the configured webhook key. The header mimics authentication used by a real webhook sender and prevents unauthenticated callers from changing a box state.
+
+Example request:
+
+```http
+PUT /api/robo/webhook?txref=DELIVERY_001
+delivery-auth: Robo-delivery-T5wre7252jTTUdst
+```
+
+The request succeeds only when the box is `RETURNING`. A box in any other state receives `400 Bad Request`.
 
 ## Error responses
 
