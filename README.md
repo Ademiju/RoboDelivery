@@ -48,7 +48,7 @@ Request:
 }
 ```
 
-Response (`200 OK`):
+Response (`201 Created`):
 
 ```json
 {

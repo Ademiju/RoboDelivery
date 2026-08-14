@@ -14,7 +14,6 @@ import miju.com.robodelivery.helpers.SystemProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -60,8 +59,7 @@ public class BoxService {
         if (items.isEmpty() && newItemRequests.isEmpty()) throw apiHelper.getException(ITEMS_NOT_FOUND);
         if (box.loadedWeight().add(incomingWeight).compareTo(box.getWeightLimit()) > 0) throw apiHelper.getException(WEIGHT_LIMIT_EXCEEDED);
 
-        // Persist each new catalog code once, then retain every request occurrence
-        // when adding items to the box.
+        // Persist duplicate item requests once, then retain every request occurrence when adding items to the box.
         if (!uniqueNewItemRequests.isEmpty()) {
             Map<String, Item> savedItemsByCode = itemDaoService.createNewItems(uniqueNewItemRequests).stream()
                     .collect(Collectors.toMap(Item::getCode, Function.identity()));

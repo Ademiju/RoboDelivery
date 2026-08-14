@@ -12,6 +12,7 @@ import miju.com.robodelivery.enums.BoxState;
 import miju.com.robodelivery.dto.requests.CreateBoxRequest;
 import miju.com.robodelivery.dto.responses.BoxResponse;
 import miju.com.robodelivery.dto.responses.ItemResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class BoxDaoService {
         if (repository.existsByTxref(request.getTxref())) throw apiHelper.getException(TXREF_ALREADY_EXISTS);
         if (request.getWeightLimit() < systemProperties.getMinimumBoxWeightLimit()) throw apiHelper.getException(MINIMUM_WEIGHT_ERROR);
         if (request.getWeightLimit() > systemProperties.getMaximumBoxWeightLimit()) throw apiHelper.getException(MAXIMUM_WEIGHT_ERROR);
-        return ResponseEntity.ok(APIResponse.builder()
+        return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.builder()
                 .data(BoxResponse.from(repository.save(new Box(request.getTxref(), BigDecimal.valueOf(request.getWeightLimit()), request.getBatteryCapacity()))))
                 .statusCode(OK.getCode())
                 .statusMessage(OK.getDescription())

@@ -20,7 +20,7 @@ public class RoboDeliveryController {
     private final BoxService boxService;
     private final ApiHelper apiHelper;
 
-    @PostMapping(value = "/box", consumes = MediaType.APPLICATION_JSON_VALUE) @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/box", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<APIResponse<Object>> createBox(@Valid @RequestBody CreateBoxRequest request) {
         return boxDaoService.create(request);
     }

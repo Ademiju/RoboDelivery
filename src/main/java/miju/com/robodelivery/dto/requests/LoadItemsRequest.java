@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class LoadItemsRequest {
+    @NotBlank
     private String txref;
     private List<@Valid ItemRequest> items;
     private List<String> codes;

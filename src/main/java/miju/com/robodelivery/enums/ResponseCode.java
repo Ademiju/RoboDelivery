@@ -18,9 +18,8 @@ public enum ResponseCode {
     MINIMUM_WEIGHT_ERROR("0010", "Minimum box weight limit exceeded", HttpStatus.BAD_REQUEST ),
     MAXIMUM_WEIGHT_ERROR("0011", "Maximum box weight limit exceeded", HttpStatus.BAD_REQUEST ),
     INVALID_KEY("0012", "Invalid key supplied", HttpStatus.BAD_REQUEST ),
-    ITEM_CODE_ALREADY_EXISTS("0013", "A new item code already exists", HttpStatus.CONFLICT ),
+    ITEM_CODE_ALREADY_EXISTS("0013", "A new item code already exists", HttpStatus.CONFLICT )
     ;
-
 
     private final String code;
     private final String description;
